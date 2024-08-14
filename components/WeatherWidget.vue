@@ -237,6 +237,13 @@ html, body {
   color: #333;
 }
 
+.detail-icon img {
+  width: 60px;
+  /* Set appropriate width */
+  height: 60px;
+  /* Set appropriate height */
+}
+
 .close-button {
   background: none;
   border: none;
