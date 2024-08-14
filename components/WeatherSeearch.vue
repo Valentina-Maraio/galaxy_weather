@@ -11,8 +11,8 @@
       <button v-if="city" @click="clearInput" class="clear-button">✖</button>
       <button @click="getWeather" class="search-button">Get Weather</button>
     </div>
-    <Card :weatherData="weatherData" :city="city" />
   </div>
+  <Card :weatherData="weatherData" :city="city" />
 </template>
   
   <script>

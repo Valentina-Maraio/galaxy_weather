@@ -1,54 +1,58 @@
 <template>
   <div class="weather-widget" v-if="weatherData && city.trim() !== ''">
     <div class="header">
-      <div class="time">{{ currentTime }}</div>
-      <div class="location">{{ weatherData.name }}</div>
+      <div class="location">
+        <h1>{{ weatherData.name }}</h1>
+      </div>
+      <div class="time">
+        <h2>{{ currentTime }}</h2>
+      </div>
     </div>
     <div class="main-info">
       <div class="weather-status">{{ weatherData.weather[0].description }}</div>
-      <div class="temperature">{{ weatherData.main.temp }}°</div>
-      <div class="real-feel">/ Real Feel {{ weatherData.main.feels_like }}°</div>
+      <div class="temperature">{{ weatherData.main.temp }} °C</div>
+      <div class="real-feel">/ Real Feel {{ weatherData.main.feels_like }} °C</div>
     </div>
     <div class="details">
       <div class="detail-item">
         <div class="detail-icon">🌬️</div>
         <div class="detail-info">
-          <div class="label">Wind</div>
+          <div class="label"><h3>Wind</h3></div>
           <div class="value">{{ weatherData.wind.speed }} km/h</div>
         </div>
       </div>
       <div class="detail-item">
         <div class="detail-icon">💧</div>
         <div class="detail-info">
-          <div class="label">Humidity</div>
+          <div class="label"><h3>Humidity</h3></div>
           <div class="value">{{ weatherData.main.humidity }}%</div>
         </div>
       </div>
       <div class="detail-item">
         <div class="detail-icon">🌡️</div>
         <div class="detail-info">
-          <div class="label">Pressure</div>
+          <div class="label"><h3>Pressure</h3></div>
           <div class="value">{{ weatherData.main.pressure }} hPa</div>
         </div>
       </div>
       <div class="detail-item">
         <div class="detail-icon">🌡️</div>
         <div class="detail-info">
-          <div class="label">Visibility</div>
+          <div class="label"><h3>Visibility</h3></div>
           <div class="value">{{ weatherData.visibility }} hPa</div>
         </div>
       </div>
       <div class="detail-item">
         <div class="detail-icon">🌡️</div>
         <div class="detail-info">
-          <div class="label">T. MAX</div>
+          <div class="label"><h3>Temp. Max</h3></div>
           <div class="value">{{ weatherData.main.temp_max }} hPa</div>
         </div>
       </div>
       <div class="detail-item">
         <div class="detail-icon">🌡️</div>
         <div class="detail-info">
-          <div class="label">T MIN</div>
+          <div class="label"><h3>Temp. Min</h3></div>
           <div class="value">{{ weatherData.main.temp_min }} hPa</div>
         </div>
       </div>
@@ -61,7 +65,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, defineProps } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 
 // Define props for the component
@@ -112,7 +116,7 @@ const saveCity = (city) => {
   background-color: #d3e4f0;
   border-radius: 20px;
   padding: 20px;
-  width: 300px;
+  width: 100%;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   color: #333;
   box-sizing: border-box;
@@ -121,7 +125,7 @@ const saveCity = (city) => {
 .header {
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .main-info {
@@ -130,7 +134,7 @@ const saveCity = (city) => {
 }
 
 .weather-status {
-  font-size: 14px;
+  font-size: 18px;
   margin-bottom: 10px;
 }
 
