@@ -56,54 +56,57 @@
   </script>
     
     <style scoped>
-  .weather-search {
-    padding: 20px;
-    background-color: #f4f4f4;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .input-container {
-    display: flex; /* Use flexbox for layout */
-    align-items: center; /* Vertically center items */
-    width: 100%; /* Full width */
-  }
-  
-  .search-input {
-    flex: 1; /* Allow input to grow and take available space */
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .clear-button {
-    margin-left: -30px; /* Adjust position to overlap input */
-    background: none;
-    border: none;
-    color: #999;
-    cursor: pointer;
-    font-size: 18px;
-    z-index: 1; /* Ensure it appears above input */
-  }
-  
-  .clear-button:hover {
-    color: #333; /* Change color on hover */
-  }
-  
-  .search-button {
-    margin-left: 10px;
-    padding: 10px 20px;
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .search-button:hover {
-    background-color: #555;
-  }
+.weather-search {
+  display: flex; /* Use flexbox for layout */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.input-container {
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Vertically center items */
+  width: 100%; /* Full width */
+  max-width: 500px; /* Limit the maximum width for better appearance */
+}
+
+.search-input {
+  flex: 1; /* Allow input to grow and take available space */
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+}
+
+.clear-button {
+  margin-left: -30px; /* Adjust position to overlap input */
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 18px;
+  z-index: 1; /* Ensure it appears above input */
+}
+
+.clear-button:hover {
+  color: #333; /* Change color on hover */
+}
+
+.search-button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.search-button:hover {
+  background-color: #555;
+}
   </style>

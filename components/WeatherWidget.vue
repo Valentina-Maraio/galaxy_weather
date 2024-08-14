@@ -1,70 +1,86 @@
-<template>
-    <div class="weather-widget" v-if="weatherData && city.trim() !== ''">
-      <div class="header">
-        <div class="location">
-          <h1>{{ weatherData.name }}</h1>
-        </div>
-        <div class="time">
-          <h2>{{ currentTime }}</h2>
-        </div>
-        <button @click="closeWidget" class="close-button">✖</button>
-      </div>
-      <div class="main-info">
-        <div class="weather-status">{{ weatherData.weather[0].description }}</div>
-        <div class="temperature">{{ weatherData.main.temp }} °C</div>
-        <div class="real-feel">/ Real Feel {{ weatherData.main.feels_like }} °C</div>
-      </div>
-      <div class="details">
-        <div class="detail-item">
-          <div class="detail-icon">🌬️</div>
-          <div class="detail-info">
-            <div class="label"><h3>Wind</h3></div>
-            <div class="value">{{ weatherData.wind.speed }} km/h</div>
+        <template>
+          <div class="container">
+            <div class="weather-widget" v-if="weatherData && city.trim() !== ''">
+              <div class="content">
+                <div class="header">
+                  <div class="location">
+                    <h1>{{ weatherData.name }}</h1>
+                  </div>
+                  <div class="time">
+                    <h2>{{ currentTime }}</h2>
+                  </div>
+                  <button @click="closeWidget" class="close-button">✖</button>
+                </div>
+                <div class="main-info">
+                  <div class="weather-status">{{ weatherData.weather[0].description }}</div>
+                  <div class="temperature">{{ weatherData.main.temp }} °C</div>
+                  <div class="real-feel">/ Real Feel {{ weatherData.main.feels_like }} °C</div>
+                </div>
+                <div class="details">
+                  <div class="detail-item">
+                    <div class="detail-icon">🌬️</div>
+                    <div class="detail-info">
+                      <div class="label">
+                        <h3>Wind</h3>
+                      </div>
+                      <div class="value">{{ weatherData.wind.speed }} km/h</div>
+                    </div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="detail-icon">💧</div>
+                    <div class="detail-info">
+                      <div class="label">
+                        <h3>Humidity</h3>
+                      </div>
+                      <div class="value">{{ weatherData.main.humidity }}%</div>
+                    </div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="detail-icon">🌡️</div>
+                    <div class="detail-info">
+                      <div class="label">
+                        <h3>Pressure</h3>
+                      </div>
+                      <div class="value">{{ weatherData.main.pressure }} hPa</div>
+                    </div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="detail-icon">🌡️</div>
+                    <div class="detail-info">
+                      <div class="label">
+                        <h3>Visibility</h3>
+                      </div>
+                      <div class="value">{{ weatherData.visibility }} hPa</div>
+                    </div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="detail-icon">🌡️</div>
+                    <div class="detail-info">
+                      <div class="label">
+                        <h3>Temp. Max</h3>
+                      </div>
+                      <div class="value">{{ weatherData.main.temp_max }} hPa</div>
+                    </div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="detail-icon">🌡️</div>
+                    <div class="detail-info">
+                      <div class="label">
+                        <h3>Temp. Min</h3>
+                      </div>
+                      <div class="value">{{ weatherData.main.temp_min }} hPa</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="right-panel">
+                <p>no graph</p>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-icon">💧</div>
-          <div class="detail-info">
-            <div class="label"><h3>Humidity</h3></div>
-            <div class="value">{{ weatherData.main.humidity }}%</div>
-          </div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-icon">🌡️</div>
-          <div class="detail-info">
-            <div class="label"><h3>Pressure</h3></div>
-            <div class="value">{{ weatherData.main.pressure }} hPa</div>
-          </div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-icon">🌡️</div>
-          <div class="detail-info">
-            <div class="label"><h3>Visibility</h3></div>
-            <div class="value">{{ weatherData.visibility }} hPa</div>
-          </div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-icon">🌡️</div>
-          <div class="detail-info">
-            <div class="label"><h3>Temp. Max</h3></div>
-            <div class="value">{{ weatherData.main.temp_max }} hPa</div>
-          </div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-icon">🌡️</div>
-          <div class="detail-info">
-            <div class="label"><h3>Temp. Min</h3></div>
-            <div class="value">{{ weatherData.main.temp_min }} hPa</div>
-          </div>
-        </div>
-      </div>
-      <div class="footer">
-        <p>no graph</p>
-      </div>
-    </div>
-  </template>
-  
-  <script setup>
+        </template>
+
+<script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 
 // Define props for the component
@@ -103,17 +119,48 @@ onUnmounted(() => {
 const closeWidget = () => {
   emit('close-widget'); // Emit an event to notify the parent component
 };
-  </script>
+</script>
 
 <style scoped>
+html, body {
+  height: 100%; /* Ensure the body takes the full height */
+  margin: 0; /* Remove default margin */
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f4f8;
+  padding: 20px; /* Add padding to ensure card is not at the very edge */
+  box-sizing: border-box;
+}
+
 .weather-widget {
+  display: flex; /* Use flexbox to align content and right panel side by side */
   background-color: #d3e4f0;
   border-radius: 20px;
   padding: 20px;
   width: 100%;
+  max-width: 800px; /* Increase max width to accommodate the right panel */
+  max-height: 90vh; /* Limit the max height to 90% of the viewport */
+  overflow-y: auto; /* Allow vertical scrolling if content exceeds max-height */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   color: #333;
   box-sizing: border-box;
+}
+
+.content {
+  flex: 3; /* Allow the main content to take more space */
+}
+
+.right-panel {
+  width: 300px; /* Set a fixed width for the right panel */
+  border-left: 1px solid #ccc;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header {
@@ -167,40 +214,21 @@ const closeWidget = () => {
 }
 
 .label {
-  font-size: 12px;
+  font-size: 18px;
   color: #666;
 }
 
 .value {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   color: #333;
-}
-
-.footer {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.save-button {
-  padding: 10px 20px;
-  background-color: #333;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-
-.save-button:hover {
-  background-color: #555;
 }
 
 .close-button {
   background: none;
   border: none;
-  color: #ff0000; /* Red color for the close button */
+  color: #ff0000;
+  /* Red color for the close button */
   font-size: 24px;
   cursor: pointer;
 }
