@@ -1,6 +1,6 @@
 # Galaxy Weather - Front-End Technical Test
 
-Welcome to the Galaxy Weather project repository. This project is a front-end application designed to provide current weather information and forecasts for any location worldwide using the OpenWeatherMap API.
+Welcome to the Galaxy Weather project repository. This project is a front-end application designed to provide weather information and forecasts for any location worldwide using the OpenWeatherMap API.
 
 ## Objective
 
@@ -18,7 +18,7 @@ The weather information should be presented graphically, using appropriate icons
 
 ## Technologies Used
 
-- **JavaScript Frameworks**: Preference is given to Vue.js, followed by Nuxt.js, and React.js.
+- **JavaScript Frameworks**: Preference is given to Vue.js, Nuxt.js
 - **OpenWeatherMap API**: For accessing weather data.
 - **Responsive Design**: Ensuring the application is accessible on various devices.
 - **Git-Flow**: For version control and collaboration.
@@ -37,96 +37,25 @@ To run the application locally, please follow these steps:
   cd galaxy-weather
   ```
 
-3. **Install the dependencies:
+**To use the api service you need an apikey.
+- go to the OpenWeatherMap(https://home.openweathermap.org/users/sign_in) website and create an account
+- you'll find your apikey in the Api Keys section
+
+4.  **Create an .env file
+   ```
+   NUXT_PUBLIC_API_KEY=12345678910
+   ```
+
+5. **Install the dependencies:
   ```bash
   npm install
   ```
 
-4. **Run the development server:
+6. **Run the development server:
   ```bash
   npm run dev
   ```
 
-5. **Access the application:
+7. **Access the application:
 
 Open your web browser and go to http://localhost:3000.
-
-**As the API require an apikey I prepared a demo for you to try the app: DEMO ()
-
-
-
-# Nuxt 3 Minimal Starter
-
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install the dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
