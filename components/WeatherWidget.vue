@@ -73,9 +73,6 @@
                   </div>
                 </div>
               </div>
-              <div class="right-panel">
-                <p>no graph</p>
-              </div>
             </div>
           </div>
         </template>
@@ -152,15 +149,6 @@ html, body {
 
 .content {
   flex: 3; /* Allow the main content to take more space */
-}
-
-.right-panel {
-  width: 300px; /* Set a fixed width for the right panel */
-  border-left: 1px solid #ccc;
-  padding-left: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .header {
