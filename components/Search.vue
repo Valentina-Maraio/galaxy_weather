@@ -1,58 +1,63 @@
 <template>
-    <div class="weather-search">
-      <div class="input-container">
-        <input
-          type="text"
-          v-model="city"
-          placeholder="Enter city name"
-          @keyup.enter="getWeather"
-          class="search-input"
-        />
-        <button v-if="city" @click="clearInput" class="clear-button">✖</button>
-        <button @click="getWeather" class="search-button">Get Weather</button>
-      </div>
+  <div class="weather-search">
+    <div class="input-container">
+      <input
+        type="text"
+        v-model="city"
+        placeholder="Enter city name"
+        @keyup.enter="getWeather"
+        class="search-input"
+      />
+      <button v-if="city" @click="clearInput" class="clear-button">✖</button>
+      <button @click="getWeather" class="search-button">Get Weather</button>
     </div>
-    <Card :weatherData="weatherData" :city="city" />
-  </template>
+    <Card :weatherData="weatherData" :forecastData="forecastData" :city="city" />
+  </div>
+</template>
+
     
     <script>
-  import { fetchWeather } from "../services/weather";
-  import Card from './Card'
-  
-  export default {
-    components: {
-      Card,
-    },
-    data() {
-      return {
-        city: "",
-        weatherData: null,
-      };
-    },
-    methods: {
-      async getWeather() {
-        if (this.city.trim() !== "") {
-          try {
-            this.weatherData = await fetchWeather(this.city);
-            this.saveCity(this.city);
-          } catch (error) {
-            console.error("Error fetching weather data:", error);
-          }
+  import { fetchWeather, fetchForecast } from "../services/weather"; // Import both functions
+import Card from './Card'
+
+export default {
+  components: {
+    Card,
+  },
+  data() {
+    return {
+      city: "",
+      weatherData: null,
+      forecastData: null, // Add forecastData to the data object
+    };
+  },
+  methods: {
+    async getWeather() {
+      if (this.city.trim() !== "") {
+        try {
+          this.weatherData = await fetchWeather(this.city);
+          this.forecastData = await fetchForecast(this.city); // Fetch forecast data
+          this.saveCity(this.city);
+        } catch (error) {
+          console.error("Error fetching weather data:", error);
         }
-      },
-      clearInput() {
-        this.city = ""; // Clear the input field
-        this.weatherData = null; // Clear the weather data
-      },
-      saveCity(city) {
-        let cities = JSON.parse(localStorage.getItem("searchedCities")) || [];
-        if (!cities.includes(city)) {
-          cities.push(city);
-          localStorage.setItem("searchedCities", JSON.stringify(cities));
-        }
-      },
+      }
     },
-  };
+    clearInput() {
+      this.city = ""; // Clear the input field
+      this.weatherData = null; // Clear the weather data
+      this.forecastData = null; // Clear the forecast data
+    },
+    saveCity(city) {
+      let cities = JSON.parse(localStorage.getItem("searchedCities")) || [];
+      if (!cities.includes(city)) {
+        cities.push(city);
+        localStorage.setItem("searchedCities", JSON.stringify(cities));
+      }
+    },
+  },
+};
+
   </script>
     
     <style scoped>
@@ -62,6 +67,7 @@
   align-items: center; /* Center vertically */
   padding: 20px;
   border-radius: 5px;
+  flex-direction: column;
 }
 
 .input-container {

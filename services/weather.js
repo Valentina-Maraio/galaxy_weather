@@ -14,3 +14,21 @@ export async function fetchWeather(city) {
     throw error
   }
 }
+
+export async function fetchForecast(city) {
+  const config = useRuntimeConfig();
+  const apiKey = config.public.apiKey;
+
+  const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
+  try {
+    const response = await axios.get(url);
+    if (response.data && response.data.list) {
+      return response.data;
+    } else {
+      throw new Error('Invalid response structure');
+    }
+  } catch (error) {
+    console.error('Error fetching forecast data:', error);
+    throw error;
+  }
+}

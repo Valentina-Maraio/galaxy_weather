@@ -13,6 +13,5 @@ export default defineNuxtConfig({
     //auto import feature
     '@': resolve(__dirname, "/")
   },
-  css: [
-  ]
+  buildModules: ["@nuxtjs/svg"],
 })

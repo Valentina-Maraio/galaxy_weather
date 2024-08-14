@@ -17,69 +17,141 @@
         </div>
         <div class="details">
           <div class="detail-item">
-            <div class="detail-icon">🌬️</div>
+            <div class="detail-icon">
+              <img alt="wind" :src="windIcon"></img>
+            </div>
             <div class="detail-info">
-              <div class="label"><h3>Wind</h3></div>
+              <div class="label">
+                <h3>Wind</h3>
+              </div>
               <div class="value">{{ weatherData.wind.speed }} km/h</div>
             </div>
           </div>
           <div class="detail-item">
-            <div class="detail-icon">💧</div>
+            <div class="detail-icon">
+              <img alt="humidity" :src="humidityIcon"></img>
+            </div>
             <div class="detail-info">
-              <div class="label"><h3>Humidity</h3></div>
+              <div class="label">
+                <h3>Humidity</h3>
+              </div>
               <div class="value">{{ weatherData.main.humidity }}%</div>
             </div>
           </div>
           <div class="detail-item">
-            <div class="detail-icon">🌡️</div>
+            <div class="detail-icon">
+              <img alt="pressure" :src="barometerIcon"></img>
+            </div>
             <div class="detail-info">
-              <div class="label"><h3>Pressure</h3></div>
+              <div class="label">
+                <h3>Pressure</h3>
+              </div>
               <div class="value">{{ weatherData.main.pressure }} hPa</div>
             </div>
           </div>
           <div class="detail-item">
-            <div class="detail-icon">🌡️</div>
+            <div class="detail-icon">
+              <img alt="fog" :src="fogIcon"></img>
+            </div>
             <div class="detail-info">
-              <div class="label"><h3>Visibility</h3></div>
+              <div class="label">
+                <h3>Visibility</h3>
+              </div>
               <div class="value">{{ weatherData.visibility }} hPa</div>
             </div>
           </div>
           <div class="detail-item">
-            <div class="detail-icon">🌡️</div>
+            <div class="detail-icon">
+              <img alt="temp_min" :src="TempMinIcon"></img>
+            </div>
             <div class="detail-info">
-              <div class="label"><h3>Temp. Max</h3></div>
-              <div class="value">{{ weatherData.main.temp_max }} hPa</div>
+              <div class="label">
+                <h3>Temp. Min</h3>
+              </div>
+              <div class="value">{{ weatherData.main.temp_min }} hPa</div>
             </div>
           </div>
           <div class="detail-item">
-            <div class="detail-icon">🌡️</div>
+            <div class="detail-icon">
+              <img alt="temp_max" :src="TempMaxIcon"></img>
+            </div>
             <div class="detail-info">
-              <div class="label"><h3>Temp. Min</h3></div>
-              <div class="value">{{ weatherData.main.temp_min }} hPa</div>
+              <div class="label">
+                <h3>Temp. Max</h3>
+              </div>
+              <div class="value">{{ weatherData.main.temp_max }} hPa</div>
             </div>
           </div>
         </div>
       </div>
       <div class="right-panel">
-        <p>no graph</p>
+        <div v-if="forecastDays && forecastDays.length > 0">
+          <div v-for="(day, index) in forecastDays" :key="index" class="forecast-item">
+            <div class="forecast-date">{{ day.date }}</div>
+            <div class="forecast-temp">{{ day.temp }} °C</div>
+            <div class="forecast-description">{{ day.description }}</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
+import barometerIconPath from './assets/barometer.svg';
+import fogIconPath from './assets/fog.svg';
+import humidityIconPath from './assets/humidity.svg'
+import windIconPath from './assets/wind.svg'
+import TempMaxIconPath from './assets/temp-max.svg'
+import TempMinIconPath from './assets/temp-min.svg'
 
-// Define props for the component
 const props = defineProps({
   weatherData: Object,
+  forecastData: Object, // Change to Object to match the API response
   city: String,
 });
 
-// Reactive state to hold the current time
-const currentTime = ref('');
+const barometerIcon = ref(barometerIconPath);
+const fogIcon = ref(fogIconPath);
+const humidityIcon = ref(humidityIconPath);
+const windIcon = ref(windIconPath);
+const TempMaxIcon = ref(TempMaxIconPath);
+const TempMinIcon = ref(TempMinIconPath);
 
-// Function to update the current time
+const currentTime = ref('');
+const forecastDays = ref([]);
+
+// Watch for changes in forecastData and process it
+watch(() => props.forecastData, (newData) => {
+  if (newData && newData.list) {
+    forecastDays.value = processForecastData(newData);
+  } else {
+    forecastDays.value = [];
+  }
+});
+
+// Function to process forecast data
+const processForecastData = (data) => {
+  const days = {};
+  data.list.forEach((item) => {
+    const date = item.dt_txt.split(' ')[0];
+    if (!days[date]) {
+      days[date] = { temp: 0, description: '', count: 0 };
+    }
+    days[date].temp += item.main.temp;
+    days[date].description = item.weather[0].description;
+    days[date].count += 1;
+  });
+
+  return Object.keys(days).map((date) => ({
+    date,
+    temp: (days[date].temp / days[date].count).toFixed(1),
+    description: days[date].description,
+  }));
+};
+
+// Update time logic
 const updateTime = () => {
   const now = new Date();
   const hours = now.getHours().toString().padStart(2, '0');
@@ -87,14 +159,12 @@ const updateTime = () => {
   currentTime.value = `${hours}:${minutes}`;
 };
 
-// Set up an interval to update the time every second
 let intervalId;
 onMounted(() => {
-  updateTime(); // Set initial time
-  intervalId = setInterval(updateTime, 1000); // Update time every second
+  updateTime();
+  intervalId = setInterval(updateTime, 1000);
 });
 
-// Clear the interval when the component is unmounted
 onUnmounted(() => {
   clearInterval(intervalId);
 });
@@ -102,45 +172,86 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-html, body {
-  height: 100%; /* Ensure the body takes the full height */
-  margin: 0; /* Remove default margin */
+html,
+body {
+  height: 100%;
+  /* Ensure the body takes the full height */
+  margin: 0;
+  /* Remove default margin */
 }
 
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f0f4f8 ;
-  padding: 20px; /* Add padding to ensure card is not at the very edge */
+  padding: 20px;
+  /* Add padding to ensure card is not at the very edge */
   box-sizing: border-box;
 }
 
 .weather-widget {
-  display: flex; /* Use flexbox to align content and right panel side by side */
+  display: flex;
+  /* Use flexbox to align content and right panel side by side */
   background-color: #d3e4f0;
   border-radius: 20px;
   padding: 20px;
   width: 100%;
-  max-width: 800px; /* Increase max width to accommodate the right panel */
-  max-height: 90vh; /* Limit the max height to 90% of the viewport */
-  overflow-y: auto; /* Allow vertical scrolling if content exceeds max-height */
+  max-width: 900px;
+  /* Increase max width to accommodate the right panel */
+  max-height: 90vh;
+  /* Limit the max height to 90% of the viewport */
+  overflow-y: auto;
+  /* Allow vertical scrolling if content exceeds max-height */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   color: #333;
   box-sizing: border-box;
 }
 
 .content {
-  flex: 3; /* Allow the main content to take more space */
+  flex: 3;
+  /* Allow the main content to take more space */
 }
 
 .right-panel {
-  width: 300px; /* Set a fixed width for the right panel */
+  width: 300px;
+  /* Set a fixed width for the right panel */
   border-left: 1px solid #ccc;
   padding-left: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.forecast-item {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forecast-item:last-child {
+  border-bottom: none;
+  /* Remove border for the last item */
+}
+
+.forecast-date {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  /* Darker color for date */
+}
+
+.forecast-temp {
+  font-size: 1.5em;
+  color: #ff4500;
+  /* Orange color for temperature */
+}
+
+.forecast-description {
+  font-size: 1em;
+  color: #555;
+  /* Grey color for description */
 }
 
 .header {
@@ -202,5 +313,34 @@ html, body {
   font-size: 16px;
   font-weight: bold;
   color: #333;
+}
+
+.forecast {
+  text-align: center;
+}
+
+.forecast-day {
+  margin-bottom: 10px;
+}
+
+.detail-icon img {
+  width: 60px;
+  /* Set appropriate width */
+  height: 60px;
+  /* Set appropriate height */
+}
+
+@media (max-width: 767px) {
+  .weather-widget {
+    flex-direction: column;
+    /* Stack content and right-panel vertically */
+  }
+
+  .right-panel {
+    border-left: none;
+    /* Remove left border in column layout */
+    border-top: 1px solid #e0e0e0;
+    /* Add top border for separation */
+  }
 }
 </style>
