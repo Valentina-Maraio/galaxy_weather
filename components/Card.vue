@@ -58,7 +58,6 @@
       </div>
     </div>
     <div class="footer">
-      <button @click="saveCity(city)" class="save-button">Save City</button>
       <p>no graph</p>
     </div>
   </div>
@@ -97,18 +96,6 @@ onUnmounted(() => {
   clearInterval(intervalId);
 });
 
-// Method to save the city
-const saveCity = (city) => {
-  let cities = JSON.parse(localStorage.getItem("searchedCities")) || [];
-  const citySet = new Set(cities); // Use a Set to handle duplicates
-  if (!citySet.has(city)) {
-    citySet.add(city);
-    localStorage.setItem("searchedCities", JSON.stringify(Array.from(citySet)));
-    alert(`${city} has been saved.`);
-  } else {
-    alert(`${city} is already saved.`);
-  }
-};
 </script>
 
 <style scoped>

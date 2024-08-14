@@ -22,27 +22,31 @@
 export default {
   name: "Menu",
   data() {
-    return {
-      isMenuOpen: false,
-      searchedCities: [],
-    };
+  return {
+    isMenuOpen: false,
+    searchedCities: [],
+    selectedCity: null, // Track the currently selected city
+  };
+},
+methods: {
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+    if (this.isMenuOpen) {
+      this.loadSearchedCities();
+    }
   },
-  methods: {
-    toggleMenu() {
-      this.isMenuOpen = !this.isMenuOpen;
-      if (this.isMenuOpen) {
-        this.loadSearchedCities();
-      }
-    },
-    loadSearchedCities() {
-      const cities = JSON.parse(localStorage.getItem("searchedCities")) || [];
-      this.searchedCities = [...new Set(cities)];
-    },
-    selectCity(city) {
-      this.$emit("city-selected", city); // Emit an event with the selected city
-      this.isMenuOpen = false; // Optionally close the menu after selection
-    },
+  loadSearchedCities() {
+    const cities = JSON.parse(localStorage.getItem("searchedCities")) || [];
+    this.searchedCities = [...new Set(cities.map(city => this.capitalizeFirstLetter(city.toLowerCase())))];
   },
+  selectCity(city) {
+    this.$emit("city-selected", city); // Emit an event with the selected city
+    this.isMenuOpen = false; // Optionally close the menu after selection
+  },
+  capitalizeFirstLetter(city) {
+    return city.charAt(0).toUpperCase() + city.slice(1);
+  }
+}
 };
 </script>
 
