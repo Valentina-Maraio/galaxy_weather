@@ -17,61 +17,73 @@
                   <div class="real-feel">/ Real Feel {{ weatherData.main.feels_like }} °C</div>
                 </div>
                 <div class="details">
-                  <div class="detail-item">
-                    <div class="detail-icon">🌬️</div>
-                    <div class="detail-info">
-                      <div class="label">
-                        <h3>Wind</h3>
-                      </div>
-                      <div class="value">{{ weatherData.wind.speed }} km/h</div>
-                    </div>
-                  </div>
-                  <div class="detail-item">
-                    <div class="detail-icon">💧</div>
-                    <div class="detail-info">
-                      <div class="label">
-                        <h3>Humidity</h3>
-                      </div>
-                      <div class="value">{{ weatherData.main.humidity }}%</div>
-                    </div>
-                  </div>
-                  <div class="detail-item">
-                    <div class="detail-icon">🌡️</div>
-                    <div class="detail-info">
-                      <div class="label">
-                        <h3>Pressure</h3>
-                      </div>
-                      <div class="value">{{ weatherData.main.pressure }} hPa</div>
-                    </div>
-                  </div>
-                  <div class="detail-item">
-                    <div class="detail-icon">🌡️</div>
-                    <div class="detail-info">
-                      <div class="label">
-                        <h3>Visibility</h3>
-                      </div>
-                      <div class="value">{{ weatherData.visibility }} hPa</div>
-                    </div>
-                  </div>
-                  <div class="detail-item">
-                    <div class="detail-icon">🌡️</div>
-                    <div class="detail-info">
-                      <div class="label">
-                        <h3>Temp. Max</h3>
-                      </div>
-                      <div class="value">{{ weatherData.main.temp_max }} hPa</div>
-                    </div>
-                  </div>
-                  <div class="detail-item">
-                    <div class="detail-icon">🌡️</div>
-                    <div class="detail-info">
-                      <div class="label">
-                        <h3>Temp. Min</h3>
-                      </div>
-                      <div class="value">{{ weatherData.main.temp_min }} hPa</div>
-                    </div>
-                  </div>
-                </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <img alt="wind" :src="windIcon"></img>
+            </div>
+            <div class="detail-info">
+              <div class="label">
+                <h3>Wind</h3>
+              </div>
+              <div class="value">{{ weatherData.wind.speed }} km/h</div>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <img alt="humidity" :src="humidityIcon"></img>
+            </div>
+            <div class="detail-info">
+              <div class="label">
+                <h3>Humidity</h3>
+              </div>
+              <div class="value">{{ weatherData.main.humidity }}%</div>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <img alt="pressure" :src="barometerIcon"></img>
+            </div>
+            <div class="detail-info">
+              <div class="label">
+                <h3>Pressure</h3>
+              </div>
+              <div class="value">{{ weatherData.main.pressure }} hPa</div>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <img alt="fog" :src="fogIcon"></img>
+            </div>
+            <div class="detail-info">
+              <div class="label">
+                <h3>Visibility</h3>
+              </div>
+              <div class="value">{{ weatherData.visibility }} hPa</div>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <img alt="temp_min" :src="TempMinIcon"></img>
+            </div>
+            <div class="detail-info">
+              <div class="label">
+                <h3>Temp. Min</h3>
+              </div>
+              <div class="value">{{ weatherData.main.temp_min }} hPa</div>
+            </div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-icon">
+              <img alt="temp_max" :src="TempMaxIcon"></img>
+            </div>
+            <div class="detail-info">
+              <div class="label">
+                <h3>Temp. Max</h3>
+              </div>
+              <div class="value">{{ weatherData.main.temp_max }} hPa</div>
+            </div>
+          </div>
+        </div>
               </div>
             </div>
           </div>
@@ -79,6 +91,12 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import barometerIconPath from './assets/barometer.svg';
+import fogIconPath from './assets/fog.svg';
+import humidityIconPath from './assets/humidity.svg'
+import windIconPath from './assets/wind.svg'
+import TempMaxIconPath from './assets/temp-max.svg'
+import TempMinIconPath from './assets/temp-min.svg'
 
 // Define props for the component
 const props = defineProps({
@@ -91,6 +109,13 @@ const emit = defineEmits(['close-widget']);
 
 // Reactive state to hold the current time
 const currentTime = ref('');
+
+const barometerIcon = ref(barometerIconPath);
+const fogIcon = ref(fogIconPath);
+const humidityIcon = ref(humidityIconPath);
+const windIcon = ref(windIconPath);
+const TempMaxIcon = ref(TempMaxIconPath);
+const TempMinIcon = ref(TempMinIconPath);
 
 // Function to update the current time
 const updateTime = () => {
