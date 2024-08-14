@@ -8,21 +8,19 @@
       <div class="searched-cities">
         <h3>Searched Cities</h3>
         <ul>
-          <li v-for="city in searchedCities" :key="city">{{ city }}</li>
+          <li v-for="city in searchedCities" :key="city" @click="selectCity(city)">
+            {{ city }}
+          </li>
         </ul>
       </div>
     </div>
   </div>
 </template>
   
-  <script>
-import WeatherCard from "./WeatherCard.vue";
-
+  
+<script>
 export default {
-  name: "App",
-  components: {
-    WeatherCard,
-  },
+  name: "Menu",
   data() {
     return {
       isMenuOpen: false,
@@ -38,21 +36,23 @@ export default {
     },
     loadSearchedCities() {
       const cities = JSON.parse(localStorage.getItem("searchedCities")) || [];
-      // Use a Set to remove duplicates
       this.searchedCities = [...new Set(cities)];
+    },
+    selectCity(city) {
+      this.$emit("city-selected", city); // Emit an event with the selected city
+      this.isMenuOpen = false; // Optionally close the menu after selection
     },
   },
 };
 </script>
-  
-  <style>
+
+<style>
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #333;
-  color: white;
+  color: black;
 }
 
 .logo {
@@ -73,11 +73,11 @@ export default {
   background-color: black;
   color: white;
   border-top: 1px solid #ccc;
-  position: absolute; /* Ensure it overlays other content */
-  top: 60px; /* Adjust based on header height */
+  position: absolute;
+  top: 60px;
   left: 0;
   right: 0;
-  z-index: 1000; /* Ensure it appears above other elements */
+  z-index: 1000;
 }
 
 .searched-cities {
@@ -91,5 +91,11 @@ export default {
 
 .searched-cities li {
   margin-bottom: 5px;
+  cursor: pointer;
+  color: #00f;
+}
+
+.searched-cities li:hover {
+  text-decoration: underline;
 }
 </style>

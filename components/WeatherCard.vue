@@ -11,27 +11,18 @@
       <button v-if="city" @click="clearInput" class="clear-button">✖</button>
     </div>
     <button @click="getWeather" class="search-button">Get Weather</button>
-    <div v-if="weatherData && city.trim() !== ''">
-      <h2>{{ weatherData.name }}</h2>
-      <p>Temperature: {{ weatherData.main.temp }} °C</p>
-      <p>Weather: {{ weatherData.weather[0].description }}</p>
-      <p>Feels Like: {{ weatherData.main.feels_like}} °C</p>
-      <p>Temperature MAX: {{ weatherData.main.temp_max }} °C</p>
-      <p>Temperature MIN: {{ weatherData.main.temp_min }} °C</p>
-      <p>Pressure: {{ weatherData.main.pressure }}</p>
-      <p>Humidity: {{ weatherData.main.humidity }}</p>
-      <p>Sea Level: {{ weatherData.main.sea_level }} m</p>
-      <p>Ground Level: {{ weatherData.main.grnd_level }}</p>
-      <p>Visibility: {{ weatherData.visibility }}</p>
-      <p>Wind: {{ weatherData.wind.speed }}</p>
-    </div>
+    <Card :weatherData="weatherData" :city="city" />
   </div>
 </template>
   
   <script>
 import { fetchWeather } from "../services/weather";
+import Card from './Card'
 
 export default {
+  components: {
+    Card,
+  },
   data() {
     return {
       city: "",
