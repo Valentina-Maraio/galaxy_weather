@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header class="header">
-      <div class="logo">Weather App</div>
+      <div class="logo">Galaxy App</div>
       <button class="menu-toggle" @click="toggleMenu">☰</button>
     </header>
     <div class="menu-content" v-if="isMenuOpen">
@@ -57,6 +57,7 @@ methods: {
   align-items: center;
   padding: 10px 20px;
   color: black;
+  background-color: #f0f4f8;
 }
 
 .logo {
@@ -67,36 +68,38 @@ methods: {
 .menu-toggle {
   background: none;
   border: none;
-  color: white;
+  color: black;
   font-size: 24px;
   cursor: pointer;
 }
 
 .menu-content {
+  width: 200px; /* Set the width to 200px */
   padding: 20px;
-  background-color: black;
+  background-color: #9cc5ee;
   color: white;
   border-top: 1px solid #ccc;
   position: absolute;
   top: 60px;
-  left: 0;
-  right: 0;
+  right: 0; /* Align it to the right side of the page */
   z-index: 1000;
 }
 
 .searched-cities {
   margin-top: 20px;
+  color: black;
 }
 
 .searched-cities ul {
   list-style: none;
   padding: 0;
+  font-size: 20px;
 }
 
 .searched-cities li {
   margin-bottom: 5px;
   cursor: pointer;
-  color: #00f;
+  color: black;
 }
 
 .searched-cities li:hover {
